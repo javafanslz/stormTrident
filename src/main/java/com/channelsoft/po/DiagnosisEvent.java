@@ -15,10 +15,10 @@ import java.io.Serializable;
  */
 public class DiagnosisEvent implements Serializable {
     private static final long serialVersionUID = 1L;
-    public double lat;
-    public double lng;
-    public long time;
-    public String diagnosisCode;
+    public double lat;//纬度
+    public double lng;//经度
+    public long time;//时间戳
+    public String diagnosisCode;//ICD-9-CM码
 
     public DiagnosisEvent(double lat, double lng, long time, String diagnosisCode) {
         this.lat = lat;

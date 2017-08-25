@@ -32,13 +32,14 @@ public class HourAssignment extends BaseFunction implements Serializable{
         DiagnosisEvent diagnosisEvent = (DiagnosisEvent)tuple.getValue(0);
         String city = (String) tuple.getValue(1);
         long timestamp =diagnosisEvent.time;
-        long hourSinceEpoch = timestamp / 1000 / 60 / 60;
+        long hourSinceEpoch = timestamp / 1000 / 60 / 60;//将时间戳转换为小时
 
         LOG.debug("Key = ["+city+ ":"+hourSinceEpoch +"]");
         String  key = city +":" +diagnosisEvent.diagnosisCode+":"+hourSinceEpoch;
         List<Object> values = new ArrayList<Object>();
         values.add(hourSinceEpoch);
         values.add(key);
-        values.add(values);
+        collector.emit(values);
+
     }
 }

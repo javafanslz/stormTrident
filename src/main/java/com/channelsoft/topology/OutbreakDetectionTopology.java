@@ -6,6 +6,7 @@ import backtype.storm.generated.StormTopology;
 import backtype.storm.tuple.Fields;
 import com.channelsoft.filter.DiseaseFilter;
 import com.channelsoft.filter.HourAssignment;
+import com.channelsoft.function.CityAssignment;
 import com.channelsoft.function.DispatcherAlert;
 import com.channelsoft.function.OutbreakeDetector;
 import com.channelsoft.spout.DiagnosisEventSpot;
@@ -32,8 +33,9 @@ public class OutbreakDetectionTopology {
         DiagnosisEventSpot spout =new DiagnosisEventSpot();
         Stream inputStream = tridentTopology.newStream("event",spout);
         inputStream.each(new Fields("event"),new DiseaseFilter())
+                .each(new Fields("event"), new CityAssignment(),new Fields("city"))
                 .each(new Fields("event","city"),new HourAssignment(),new Fields("hour","cityDiseaseHour"))
-                .groupBy(new Fields("cityDisease"))
+                .groupBy(new Fields("cityDiseaseHour"))
                 .persistentAggregate(new OutBreakeTrendFactory(),new Count(),new Fields("count"))
                 .newValuesStream()
                 .each(new Fields("cityDiseaseHour","count"),new OutbreakeDetector(),new Fields("alert"))

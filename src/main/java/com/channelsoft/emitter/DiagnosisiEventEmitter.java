@@ -27,11 +27,12 @@ public class DiagnosisiEventEmitter implements Emitter,Serializable {
     private static final long serialVersionUID = 1L;
 
     AtomicInteger successfulTransactions = new AtomicInteger(0);
+
     public void emitBatch(TransactionAttempt tx, Object coordinatorMeta, TridentCollector collector) {
-        for(int i = 0;i < 10000;i++){
+        for(int i = 0;i < 1000;i++){
             List<Object> event = new ArrayList<Object>();
-            double lat = new Double(-30 + (int) (Math.random() * 75));
-            double lng = new Double(-120 + (int) (Math.random() * 70));
+            double lat = new Double(-30 + (int) (Math.random() * 75));//纬度
+            double lng = new Double(-120 + (int) (Math.random() * 70));//经度
             long time = System.currentTimeMillis();
             String diag = new Integer(320 + (int) (Math.random() * 7)).toString();
             DiagnosisEvent diagnosisEvent =new DiagnosisEvent(lat,lng,time,diag);
